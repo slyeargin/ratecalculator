@@ -6,8 +6,8 @@ module.exports = function(grunt){
     // ---------------------------------------------------------------------- //
     watch: {
       jshint: {
-        files: ['app/js/source/**/*.js', 'Gruntfile.js'],
-        tasks: ['jshint:all', 'copy:jssource']
+        files: ['app/js/es6/**/*.js', 'Gruntfile.js'],
+        tasks: ['jshint:all', 'copy:jses6']
       },
       jade: {
         files: ['app/**/*.jade'],
@@ -38,15 +38,15 @@ module.exports = function(grunt){
       },
       all: [
         'Gruntfile.js',
-        'app/js/source/**/*.js'
+        'app/js/es6/**/*.js'
       ]
     },
     // ---------------------------------------------------------------------- //
     copy: {
-      jssource: {
-        cwd: 'app/js/source',
+      jses6: {
+        cwd: 'app/js/es6',
         src: ['**/*.js'],
-        dest: 'public/js/source',
+        dest: 'public/js/es6',
         expand: true
       },
       jsvendor: {
@@ -105,6 +105,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:jssource', 'jade:build', 'less:build','copy:jsvendor', 'copy:css', 'copy:media']);
+  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:jses6', 'jade:build', 'less:build','copy:jsvendor', 'copy:css', 'copy:media']);
   grunt.registerTask('default', ['build', 'watch']);
 };
