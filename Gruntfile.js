@@ -5,9 +5,9 @@ module.exports = function(grunt){
     pkg: grunt.file.readJSON('package.json'),
     // ---------------------------------------------------------------------- //
     watch: {
-      jshint: {
+      code: {
         files: ['app/js/es6/**/*.js', 'Gruntfile.js'],
-        tasks: ['jshint:all', 'copy:jses6']
+        tasks: ['jshint:all', 'copy:es6', 'traceur']
       },
       jade: {
         files: ['app/**/*.jade'],
@@ -19,7 +19,7 @@ module.exports = function(grunt){
       },
       copyjs: {
         files: ['app/js/vendor/**/*.js'],
-        tasks: ['copy:jsvendor']
+        tasks: ['copy:js']
       },
       copycss: {
         files: ['app/css/**/*.css'],
@@ -43,13 +43,13 @@ module.exports = function(grunt){
     },
     // ---------------------------------------------------------------------- //
     copy: {
-      jses6: {
+      es6: {
         cwd: 'app/js/es6',
         src: ['**/*.js'],
         dest: 'public/js/es6',
         expand: true
       },
-      jsvendor: {
+      js: {
         cwd: 'app/js/vendor',
         src: ['**/*.js'],
         dest: 'public/js/vendor',
@@ -95,6 +95,18 @@ module.exports = function(grunt){
     // ---------------------------------------------------------------------- //
     clean: {
       server: 'public'
+    },
+    // ---------------------------------------------------------------------- //
+    traceur: {
+      build: {
+        files: [{
+          cwd: 'public/js/es6',
+          src: '**/*.js',
+          dest: 'public/js/source',
+          ext: '.js',
+          expand: true
+        }]
+      }
     }
   });
 
@@ -105,6 +117,22 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:jses6', 'jade:build', 'less:build','copy:jsvendor', 'copy:css', 'copy:media']);
+  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:es6', 'traceur', 'jade:build', 'less:build','copy:js', 'copy:css', 'copy:media']);
   grunt.registerTask('default', ['build', 'watch']);
+
+  grunt.registerMultiTask('traceur', 'ES6 to ES5', function(){
+    var exec  = require('child_process').exec;
+    var cmd;
+
+    this.files.forEach(function(f){
+      cmd = './tools/traceur-compiler/traceur --sourcemap --experimental --out '+f.dest+' --script ' + f.src[0];
+      console.log(cmd);
+
+      exec(cmd, function(error, stdout, stderr){
+        console.log(error);
+        console.log(stdout);
+        console.log(stderr);
+      });
+    });
+  });
 };
