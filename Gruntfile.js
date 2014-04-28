@@ -6,8 +6,8 @@ module.exports = function(grunt){
     // ---------------------------------------------------------------------- //
     watch: {
       code: {
-        files: ['app/js/es6/**/*.js', 'Gruntfile.js'],
-        tasks: ['jshint:all', 'copy:es6', 'traceur']
+        files: ['app/js/es6/**/*.js', 'app/js/es5/**/*.js', 'Gruntfile.js'],
+        tasks: ['jshint:all', 'copy:es6', 'copy:es5', 'traceur']
       },
       jade: {
         files: ['app/**/*.jade'],
@@ -38,7 +38,8 @@ module.exports = function(grunt){
       },
       all: [
         'Gruntfile.js',
-        'app/js/es6/**/*.js'
+        'app/js/es6/**/*.js',
+        'app/js/es5/**/*.js'
       ]
     },
     // ---------------------------------------------------------------------- //
@@ -47,6 +48,12 @@ module.exports = function(grunt){
         cwd: 'app/js/es6',
         src: ['**/*.js'],
         dest: 'public/js/es6',
+        expand: true
+      },
+      es5: {
+        cwd: 'app/js/es5',
+        src: ['**/*.js'],
+        dest: 'public/js/es5',
         expand: true
       },
       js: {
@@ -101,8 +108,8 @@ module.exports = function(grunt){
       build: {
         files: [{
           cwd: 'public/js/es6',
-          src: '**/*.js',
-          dest: 'public/js/source',
+          src: '**/*.es6.js',
+          dest: 'public/js/es6',
           ext: '.js',
           expand: true
         }]
@@ -117,7 +124,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:es6', 'traceur', 'jade:build', 'less:build','copy:js', 'copy:css', 'copy:media']);
+  grunt.registerTask('build', ['clean', 'jshint:all', 'copy:es6', 'copy:es5', 'traceur', 'jade:build', 'less:build','copy:js', 'copy:css', 'copy:media']);
   grunt.registerTask('default', ['build', 'watch']);
 
   grunt.registerMultiTask('traceur', 'ES6 to ES5', function(){
