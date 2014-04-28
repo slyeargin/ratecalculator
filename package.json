@@ -5,7 +5,7 @@
   "scripts":{
     "start": "node app.js;",
     "traceur": "git clone https://github.com/google/traceur-compiler tools/traceur-compiler;cd tools/traceur-compiler;npm install;cp bin/traceur.js ../../app/js/vendor;",
-    "nss": "atom;npm install;npm run traceur;grunt build;PORT=3000 node app.js;"
+    "nss": "npm install;npm run traceur;grunt build;PORT=3000 node app.js;"
   },
   "dependencies":{
     "connect": "*"
