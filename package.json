@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts":{
-    "start": "node app.js",
-    "traceur": "git clone https://github.com/google/traceur-compiler tools/traceur-compiler;cd tools/traceur-compiler;npm install;cp bin/traceur.js ../../app/js/vendor;"
+    "start": "node app.js;",
+    "traceur": "git clone https://github.com/google/traceur-compiler tools/traceur-compiler;cd tools/traceur-compiler;npm install;cp bin/traceur.js ../../app/js/vendor;",
+    "nss": "npm install;npm run traceur;PORT=3000 node app.js;"
   },
   "dependencies":{
     "connect": "*"
