@@ -1,8 +1,13 @@
-div#option  
-  table
+div  
+  table#option
     tr
       td
         input.selectOption(type='checkbox')
       td.description
       td.amount
-      td.delete x
+      td.delete 
+        i.fa.fa-trash
+
+  table#noOption
+    tr.noOptions
+      td(colspan=4) You haven't added any options.

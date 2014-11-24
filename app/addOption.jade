@@ -1,9 +1,13 @@
-div.addOption
-  input(type='text', name='description', placeholder='Describe the rate option you wish to add.')
-  label Add
-  input(type='radio', name='addOrSubtract', value='increase', checked)
-  label Subtract
-  input(type='radio', name='addOrSubtract', value='decrease')
-  input(type='number', name='amount', min='0')
-  button#addOption Add Option
+div.form-inline.addOption
+  h3.page-header Add options
   
+  input#option-description.form-control(type='text', name='description', placeholder='Describe the rate option you wish to add.')
+  label.radio-inline
+    input(type='radio', name='addOrSubtract', value='increase', checked)
+    | Add
+  label.radio-inline
+    input(type='radio', name='addOrSubtract', value='decrease')
+    | Subtract
+  input#option-amount.form-control(type='number', name='amount', min='0', placeholder='0')
+  button#addOption.btn.btn-default Add Option
+    

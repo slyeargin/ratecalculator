@@ -3,22 +3,28 @@ html(lang='en')
   head
     meta(charset='utf-8')
     title Hourly Rate Calculator
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
     link(rel='stylesheet', href='./css/app.css')
   body
-    h1 Hourly Rate Calculator
+    h1.page-header Hourly Rate Calculator
     
-    include baseRate.jade
-    
-    h3 Add options
+    include rates.jade
     include addOption.jade
-    table#options
-      tbody      
+    
+    table#options.table
+      thead
+        tr
+          th Select
+          th Description
+          th Adjustment
+          th Delete
+      tbody
+        tr.noOptions
+          td(colspan=4) You haven't added any options.
     
     include optionTemplate.jade
     
-    
-    
-    include calculatedRate.jade
     
 
     script(src='./js/vendor/traceur.js')

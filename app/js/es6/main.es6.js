@@ -13,7 +13,7 @@
 
   function adjustRate(){
     var adjustedRate = parseInt($('input[name=baseRate]').val());
-    if (isNaN(adjustedRate) || adjustedRate < 0) {
+    if (isNaN(adjustedRate) || adjustedRate < 0 ) {
       alert('Your base rate must be a positive integer.');
     } else {
       updateRateDisplay(adjustedRate);
@@ -63,7 +63,10 @@
     } else if (isNaN(amount) || amount < 0) {
       alert('Add-on rates must be positive integers.');
     } else {
-      $('#option table tbody tr').clone().appendTo(optionsList);
+      if ($('#options tbody .noOptions')) {
+        $('#options tbody .noOptions').remove();
+      }
+      $('#option tr').clone().appendTo(optionsList);
       addDescription(description);
       addAmount(addOrSubtract, amount);
       clearAddOptionForm();
@@ -85,6 +88,10 @@
 
   function deleteOption(){
     $(this).closest('tr').remove();
+    var optionsList = $('#options tbody tr');
+    if (optionsList.length === 0) {
+      $('.noOptions').clone().appendTo($('#options tbody'));
+    }
     adjustRate();
   }
 
