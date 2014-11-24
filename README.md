@@ -1,10 +1,14 @@
-# client-template
+# Hourly Rate Calculator
 
-Serves as a template for client JavaScript applications.
+## Usage
 
-It uses:
-* Jade
-* Less
-* Grunt
-* JSHint
-* Node.js
+Run `npm run nss`.
+Visit http://localhost:3000.
+
+
+Already using port 3000?
+
+`npm install`
+`npm run traceur`
+`grunt build`
+`PORT=[assign port here] node app.js`
