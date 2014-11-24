@@ -4,23 +4,34 @@
   $(document).ready(init);
 
   function init(){
-    $('.hourlyRate').text($('input[name=baseRate]').val());
+    updateRateDisplay($('input[name=baseRate]').val());
     $('#addOption').click(addOption);
+    $('.deleteOption').click(deleteOption);
     $('#options').on('click', '.selectOption', adjustRate);
+    $('#baseRate').keypress(adjustRate);
   }
 
   function adjustRate(){
     var adjustedRate = parseInt($('input[name=baseRate]').val());
-    var selectedOptions = $('.selectOption:checked').closest('tr');
-    selectedOptions.map((i,d)=>$(d).attr('data-amount')).each((i, value)=>{
-      value = parseInt(value);
-      if (value > 0){
-        adjustedRate = increaseRate(adjustedRate, value);
-      } else {
-        adjustedRate = decreaseRate(adjustedRate, value);
-      }
+    if (isNaN(adjustedRate) || adjustedRate < 0) {
+      alert('Your base rate must be a positive integer.');
+    } else {
       updateRateDisplay(adjustedRate);
-    });
+      var selectedOptions = $('.selectOption:checked').closest('tr');
+      selectedOptions.map((i,d)=>$(d).attr('data-amount')).each((i, value)=>{
+        value = parseInt(value);
+        if (isNaN(value)) {
+          alert('Add-on rates must be integers.');
+        } else {
+          if (value > 0){
+            adjustedRate = increaseRate(adjustedRate, value);
+          } else {
+            adjustedRate = decreaseRate(adjustedRate, value);
+          }
+          updateRateDisplay(adjustedRate);
+        }
+        });
+    }
   }
 
   function updateRateDisplay(rate){
@@ -46,15 +57,30 @@
 
   function createOption(description, addOrSubtract, amount){
     var optionsList = $('#options tbody');
-    $('#option table tbody tr').clone().appendTo(optionsList);
+    amount = parseInt(amount);
+    if (description.length === 0 || addOrSubtract.length === 0 || amount.length === 0){
+      alert('All fields are required.');
+    } else if (isNaN(amount) || amount < 0) {
+      alert('Add-on rates must be positive integers.');
+    } else {
+      $('#option table tbody tr').clone().appendTo(optionsList);
+      addDescription(description);
+      addAmount(addOrSubtract, amount);
+      clearAddOptionForm();
+    }
+  }
+
+  function addDescription(description){
     $('#options tr .description').last().text(description);
+  }
+
+  function addAmount(addOrSubtract, amount){
     $('#options tr .amount').last().text('$' + amount);
     if (addOrSubtract === 'decrease'){
       $('#options tr .amount').last().prepend('-');
       amount *= -1;
     }
     $('#options tr').last().attr('data-amount', amount);
-    clearAddOptionForm();
   }
 
   // function deleteOption
