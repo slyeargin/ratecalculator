@@ -6,7 +6,7 @@
   function init(){
     updateRateDisplay($('input[name=baseRate]').val());
     $('#addOption').click(addOption);
-    $('.deleteOption').click(deleteOption);
+    $('#options').on('click', '.delete', deleteOption);
     $('#options').on('click', '.selectOption', adjustRate);
     $('#baseRate').keypress(adjustRate);
   }
@@ -83,7 +83,10 @@
     $('#options tr').last().attr('data-amount', amount);
   }
 
-  // function deleteOption
+  function deleteOption(){
+    $(this).closest('tr').remove();
+    adjustRate();
+  }
 
   function clearAddOptionForm(){
     $('.addOption input[name=description]').val('');
