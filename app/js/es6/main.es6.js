@@ -1,3 +1,5 @@
+/* jshint unused:false */
+
 (function(){
   'use strict';
 
@@ -8,13 +10,15 @@
     $('#addOption').click(addOption);
     $('#options').on('click', '.delete', deleteOption);
     $('#options').on('click', '.selectOption', adjustRate);
-    $('#baseRate').keypress(adjustRate);
+    $('#rates').on('keypress', '#baseRate', adjustRate);
+    $('#rates').on('keyup', '#baseRate', adjustRate);
   }
 
   function adjustRate(){
+    $('.alert-text').empty();
     var adjustedRate = parseInt($('input[name=baseRate]').val());
     if (isNaN(adjustedRate) || adjustedRate < 0 ) {
-      alert('Your base rate must be a positive integer.');
+      $('.alert-text').text('Your base rate must be a positive integer.');
     } else {
       updateRateDisplay(adjustedRate);
       var selectedOptions = $('.selectOption:checked').closest('tr');
